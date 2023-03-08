@@ -32,6 +32,32 @@ const HospitalSchema = new mongoose.Schema({
         type        : String,
         required    : [true,'Please add a region'],
     }
+}, {
+    toJSON : {
+        virtuals    : true
+    },
+    toObject : {
+        virtuals    : true
+    }
+});
+
+// When delete hospital in system, the appointment of hospital 
+// should be deleted too [Cascade delete]
+
+HospitalSchema.pre('remove', async function(next){
+    console.log(`Appointments being removed from hospital ${this._id}`);
+    await this.model('Appointment').deleteMany({
+        hospital : this._id
+    });
+    next();
+});
+
+// Reverse populate with virtuals
+HospitalSchema.virtual('appointments',{
+    ref             : 'Appointment', // Ref to Appointment.js
+    localField      : '_id',
+    foreignField    : 'hospital',
+    justOne         : false
 });
 
 module.exports = mongoose.model('Hospital',HospitalSchema);
