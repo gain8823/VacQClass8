@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const hospitals     = require('./routes/hospitals');
 const auth          = require('./routes/auth');
 const appointments  = require('./routes/appointments');
+const vaccenters    = require('./routes/vaccenters');
 
 const cookieParser = require('cookie-parser');
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use('/api/v1/hospitals',hospitals);
 app.use('/api/v1/auth',auth);
 app.use('/api/v1/appointments',appointments);
+app.use('/api/v1/vaccenters',vaccenters);
 
 const PORT = process.env.PORT || 2000;
 

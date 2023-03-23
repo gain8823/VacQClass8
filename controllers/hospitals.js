@@ -1,6 +1,10 @@
 const Hospital = require('../models/Hospital');
 
+// const vacCenter = require('../models/VacCenter');
+
 exports.getHospitals = async (req,res,next)=>{
+
+    console.log('getHospitals is called');
     // res.status(200).json({ success:true , msg:'Show all hospitals'});
 
 
@@ -20,7 +24,7 @@ exports.getHospitals = async (req,res,next)=>{
 
         // Loop over remove fields and delete them from reqQuery
         removeFields.forEach( param=>delete reqQuery[param] );
-        console.log(reqQuery)
+        // console.log(reqQuery)
 
         // Create query string
         let queryStr = JSON.stringify(reqQuery);
@@ -81,12 +85,15 @@ exports.getHospitals = async (req,res,next)=>{
 
     } catch(err){
         res.status(400).json({
-           success : false 
+           success : false,
+           location : 'controller / getHospitals' 
         });
     }
 };
 
 exports.getHospital = async (req,res,next)=>{
+
+    console.log('getHospital is called');
     // res.status(200).json({success:true ,msg:`Show hospitals: ${req.params.id}`});
 
     try{
@@ -95,7 +102,8 @@ exports.getHospital = async (req,res,next)=>{
 
         if(!hospital){
             return res.status(400).json({
-                success : false
+                success : false,
+                location : '01'
             });
         }
 
@@ -106,12 +114,15 @@ exports.getHospital = async (req,res,next)=>{
 
     } catch(err){
         res.status(400).json({
-            success : false
+            success : false,
+            location : '02'
         });
     }
 };
 
 exports.createHospital = async (req,res,next)=>{
+
+    console.log('createHospital is called');
 
     const hospital = await Hospital.create(req.body);
 
@@ -130,7 +141,8 @@ exports.updateHospital = async (req,res,next)=>{
 
         if(!hospital){
             return res.status(400).json({
-                success : false
+                success : false,
+                location : '03'
             });
         }
 
@@ -141,7 +153,8 @@ exports.updateHospital = async (req,res,next)=>{
 
     } catch(err){
         res.status(400).json({
-            success : false
+            success : false,
+            location : 'controller / getHospital' 
         });
     }
     // res.status(200).json({ success:true , msg:`Update hospitals: ${req.params.id}`});
@@ -154,7 +167,8 @@ exports.deleteHospital = async (req,res,next)=>{
 
         if(!hospital){
             return res.status(400).json({
-                success : false
+                success : false,
+                location : '04'
             });
         }
 
@@ -167,8 +181,28 @@ exports.deleteHospital = async (req,res,next)=>{
 
     } catch(err){
         res.status(400).json({
-            success : false
+            success : false,
+            location : 'controller / deleteHospital' 
         });
     }
     // res.status(200).json({ success:true , msg:`Delete hospitals: ${req.params.id}`});
 }; 
+
+// exports.getVacCenters = (req,res,next)=>{
+
+//     console.log('getVacCenters is called.')
+
+//     vacCenter.getAll((err, data)=>{
+
+//         if(err){
+//             res.status(500).send({
+//                 success     : 'error',
+//                 message     : err.message || "Some error occured while retrieving Vaccine Centers.",
+//                 location    : 'controller / getvaccenters'
+//             });
+//         }else{
+//             res.send(data);
+//         }
+
+//     });
+// };
